@@ -21,12 +21,36 @@ if (mains) {
 }
 //
 
-//starters page
+//starters/mains/desserts page
 const addBtn = document.getElementById("addItemBtn");
 const backBtn = document.getElementById("goBackBtn");
+
+const gotoStarters = document.getElementById("goStarters");
+const gotoMains = document.getElementById("goMains");
+const gotoDesserts = document.getElementById("goDesserts");
+
+
 const menuContainer = document.getElementById("menuContainer");
 const imageInput = document.getElementById("imageInput");
+const menuForm = document.getElementById("menuForm");
+const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
 
+
+if(gotoStarters){
+    gotoStarters.addEventListener("click",()=>{
+        window.location.href = "../starters/starters.html"
+    })
+}
+if(gotoMains){
+    gotoMains.addEventListener("click",()=>{
+        window.location.href = "../mains/mains.html"
+    })
+}
+if(gotoDesserts){
+    gotoDesserts.addEventListener("click",()=>{
+        window.location.href = "../desserts/desserts.html"
+    })
+}
 
 if (backBtn) {
     backBtn.addEventListener("click", () => {
@@ -34,42 +58,46 @@ if (backBtn) {
     })
 }
 
+
+
 if (addBtn) {
-    addBtn.addEventListener("click", () => {
-        const name = prompt("Enter item name:")
-        if (!name) return;
+  addBtn.addEventListener("click", () => {
+    document.getElementById("menuModalLabel").textContent = "Add Menu Item";
+    menuForm.reset(); // clear previous inputs
+    menuModal.show();
+  });
+}
+//handle the bootsrap modal
+menuForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-        const price = prompt("Enter price:");
-        if (!name) return;
+  const name = document.getElementById("itemName").value.trim();
+  const price = document.getElementById("itemPrice").value.trim();
+  //img
+  const file = document.getElementById("itemImage").files[0];
 
-        
+  if (!name || !price || !file) return alert("Please fill all fields.");
 
-        //to handel image inputs
-        const imageURL = "../test_food.webp"
-            
-
-            
-
-        const cardHTML =
-                `<div class="col-lg-3 col-md-4 col-sm-12 theCard">
-        <div class="card mb-3" style="width: 18rem;">
-        <img src="${imageURL}" class="card-img-top" alt="../test_food.webp">
+  //handle img input
+  const imageURL = URL.createObjectURL(file);
+//html of bootsrap card
+  const cardHTML = `
+    <div class="col-lg-3 col-md-4 col-sm-12 theCard">
+      <div class="card mb-3" style="width: 18rem;">
+        <img src="${imageURL}" class="card-img-top" alt="${name}">
         <div class="card-body">
           <h5 class="card-title">${name}</h5>
           <p class="card-text">${price} AED</p>
           <a href="#" class="btn btn-primary d-block mx-auto mb-1 edit-btn">Edit</a>
           <a href="#" class="btn btn-danger d-block mx-auto delete-btn">Delete</a>
         </div>
-        </div>
-        </div>`;
-            //so we can directly insert the element using the pure html
-            menuContainer.insertAdjacentHTML("beforeend", cardHTML);
-           
-            
-        
-    })
-}
-
+      </div>
+    </div>
+  `;
+//insert node
+  menuContainer.insertAdjacentHTML("beforeend", cardHTML);
+  menuModal.hide(); // close modal
+});
 
 
 menuContainer.addEventListener("click", (e) => {
