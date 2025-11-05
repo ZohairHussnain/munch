@@ -47,28 +47,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-document.getElementById("viewOrderBtn").addEventListener("click", () => {
-  const orderItemsList = document.getElementById("orderItemsList");
-
-  // Dummy items
-  const dummyItems = [
-    "Garlic Bread — AED 18 x 2",
-    "Grilled Salmon — AED 65 x 1",
-    "Tiramisu — AED 30 x 1"
-  ];
-
-  // Add Items
-  dummyItems.forEach(item => {
-    const div = document.createElement("div");
-    div.textContent = item;
-    orderItemsList.appendChild(div);
-  });
-
-  document.getElementById("orderPage").style.display = "block";
-});
-
-// Close button
-document.getElementById("closeOrderBtn").addEventListener("click", () => {
-  document.getElementById("orderPage").style.display = "none";
-});
