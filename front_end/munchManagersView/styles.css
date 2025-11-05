@@ -1,0 +1,23 @@
+.cherry-bomb-one-regular {
+    font-family: "Cherry Bomb One", system-ui;
+    font-weight: 00;
+    font-style: normal;
+  }
+  
+  #munch{
+    font-family: "Cherry Bomb One"; 
+    font-size: 72px;
+    background: linear-gradient(to left,#3533cc 70%,  #000000 100%) ; 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;  
+  }
+  
+  body{
+      background-color: rgb(247, 244, 240);
+  }
+  button{
+      margin-top: 1em;
+   
+  }

@@ -25,6 +25,7 @@ if (mains) {
 const addBtn = document.getElementById("addItemBtn");
 const backBtn = document.getElementById("goBackBtn");
 
+
 const gotoStarters = document.getElementById("goStarters");
 const gotoMains = document.getElementById("goMains");
 const gotoDesserts = document.getElementById("goDesserts");
@@ -34,6 +35,7 @@ const menuContainer = document.getElementById("menuContainer");
 const imageInput = document.getElementById("imageInput");
 const menuForm = document.getElementById("menuForm");
 const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
+
 
 
 if(gotoStarters){
