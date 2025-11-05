@@ -81,6 +81,8 @@ menuForm.addEventListener("submit", (e) => {
   //handle img input
   const imageURL = URL.createObjectURL(file);
 //html of bootsrap card
+//rating is static for now, will make it change when backend connects
+//wait time as well ^
   const cardHTML = `
     <div class="col-lg-3 col-md-4 col-sm-12 theCard">
       <div class="card mb-3" style="width: 18rem;">
@@ -88,6 +90,12 @@ menuForm.addEventListener("submit", (e) => {
         <div class="card-body">
           <h5 class="card-title">${name}</h5>
           <p class="card-text">${price} AED</p>
+          <div class="rating text-center">
+          ⭐ ⭐ ⭐ ⭐ ☆ <span class="rating-value">(4.2 / 5)</span>
+          </div>
+          <div class="wait-time text-center mb-1">
+           ⏱ Avg Wait: 12 min
+          </div>
           <a href="#" class="btn btn-primary d-block mx-auto mb-1 edit-btn">Edit</a>
           <a href="#" class="btn btn-danger d-block mx-auto delete-btn">Delete</a>
         </div>
