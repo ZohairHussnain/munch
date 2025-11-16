@@ -1,0 +1,33 @@
+.cherry-bomb-one-regular {
+  font-family: "Cherry Bomb One", system-ui;
+  font-weight: 00;
+  font-style: normal;
+}
+
+#munch{
+  font-family: "Cherry Bomb One"; 
+  font-size: 72px;
+  background: linear-gradient(to left,#3533cc 70%,  #000000 100%); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body{
+    background-color: rgb(247, 244, 240);
+}
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+  color: #555;
+  font-size: 0.9rem;
+}

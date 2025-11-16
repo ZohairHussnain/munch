@@ -1,0 +1,78 @@
+.cherry-bomb-one-regular {
+  font-family: "Cherry Bomb One", system-ui;
+  font-weight: 00;
+  font-style: normal;
+}
+
+#munch{
+  font-family: "Cherry Bomb One"; 
+  font-size: 72px;
+  background: linear-gradient(to left,#3533cc 70%,  #000000 100%); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body{
+    background-color: rgb(247, 244, 240);
+    padding-bottom: 60px;
+}
+
+#title{
+    text-align: center;
+}
+
+.menu-card {
+    background-color: #f1f1f1;
+    border-radius: 15px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.menu-card:hover {
+    background-color: #e8e8e8;
+    transform: scale(1.02);
+}
+
+.menu-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.menu-card h5 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.menu-section {
+    max-width: 400px;
+    margin: auto;
+}
+
+.menu-item {
+    margin-bottom: 15px;
+}
+ 
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
