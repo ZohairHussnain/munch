@@ -32,9 +32,14 @@ const gotoDesserts = document.getElementById("goDesserts");
 
 
 const menuContainer = document.getElementById("menuContainer");
-const imageInput = document.getElementById("imageInput");
 const menuForm = document.getElementById("menuForm");
-const menuModal = new bootstrap.Modal(document.getElementById("menuModal"));
+const menuModalElement = document.getElementById("menuModal");
+const menuModalLabel = document.getElementById("menuModalLabel");
+const itemNameInput = document.getElementById("itemName");
+const itemPriceInput = document.getElementById("itemPrice");
+const itemImageInput = document.getElementById("itemImage");
+const menuModal = menuModalElement ? new bootstrap.Modal(menuModalElement) : null;
+let editingCard = null;
 
 
 
@@ -62,30 +67,42 @@ if (backBtn) {
 
 
 
-if (addBtn) {
+if (addBtn && menuForm && menuModal) {
   addBtn.addEventListener("click", () => {
-    document.getElementById("menuModalLabel").textContent = "Add Menu Item";
+    if (menuModalLabel) menuModalLabel.textContent = "Add Menu Item";
     menuForm.reset(); // clear previous inputs
+    editingCard = null;
+    if (itemImageInput) itemImageInput.required = true;
     menuModal.show();
   });
 }
-//handle the bootsrap modal
-menuForm.addEventListener("submit", (e) => {
-  e.preventDefault();
 
-  const name = document.getElementById("itemName").value.trim();
-  const price = document.getElementById("itemPrice").value.trim();
-  //img
-  const file = document.getElementById("itemImage").files[0];
+if (menuForm && menuModal) {
+  menuForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  if (!name || !price || !file) return alert("Please fill all fields.");
+    const name = itemNameInput ? itemNameInput.value.trim() : "";
+    const price = itemPriceInput ? itemPriceInput.value.trim() : "";
+    const file = itemImageInput ? itemImageInput.files[0] : null;
 
-  //handle img input
-  const imageURL = URL.createObjectURL(file);
-//html of bootsrap card
-//rating is static for now, will make it change when backend connects
-//wait time as well ^
-  const cardHTML = `
+    if (!name || !price) return alert("Please fill all fields.");
+    if (!editingCard && !file) return alert("Please upload an image for new items.");
+
+    if (editingCard) {
+      const titleEl = editingCard.querySelector(".card-title");
+      const priceEl = editingCard.querySelector(".card-text");
+      const imageEl = editingCard.querySelector("img");
+      if (titleEl) titleEl.textContent = name;
+      if (priceEl) priceEl.textContent = `${price} AED`;
+      if (imageEl) {
+        if (file) {
+          imageEl.src = URL.createObjectURL(file);
+        }
+        imageEl.alt = name;
+      }
+    } else {
+      const imageURL = URL.createObjectURL(file);
+      const cardHTML = `
     <div class="col-lg-3 col-md-4 col-sm-12 theCard">
       <div class="card mb-3" style="width: 18rem;">
         <img src="${imageURL}" class="card-img-top" alt="${name}">
@@ -104,13 +121,20 @@ menuForm.addEventListener("submit", (e) => {
       </div>
     </div>
   `;
-//insert node
-  menuContainer.insertAdjacentHTML("beforeend", cardHTML);
-  menuModal.hide(); // close modal
-});
+      if (menuContainer) {
+        menuContainer.insertAdjacentHTML("beforeend", cardHTML);
+      }
+    }
+    menuModal.hide();
+    menuForm.reset();
+    editingCard = null;
+    if (itemImageInput) itemImageInput.required = true;
+  });
+}
 
 
-menuContainer.addEventListener("click", (e) => {
+if (menuContainer) {
+  menuContainer.addEventListener("click", (e) => {
     //for deleting menu item
     //we check for any clicks in the container then check if the click came from a delete
     if (e.target.classList.contains("delete-btn")) {
@@ -126,24 +150,27 @@ menuContainer.addEventListener("click", (e) => {
     //for editing item
 
     if(e.target.classList.contains("edit-btn")){
-        //get the specific card that clicked edit
         const card = e.target.closest(".card");
+        if (!card || !menuModal || !menuForm || !itemNameInput || !itemPriceInput) return;
+        editingCard = card;
         const oldName = card.querySelector(".card-title");
         const oldPrice = card.querySelector(".card-text");
-        
-
-        const newName = prompt("Enter new name:");
-        if(newName) oldName.textContent = newName;
-
-        const newPrice = prompt("Enter new price:");
-        if(newPrice) oldPrice.textContent = newPrice;
-
-        
+        if (itemNameInput && oldName) itemNameInput.value = oldName.textContent.trim();
+        if (itemPriceInput && oldPrice) {
+            const cleanedPrice = oldPrice.textContent.replace(/[^\d.]/g, "");
+            itemPriceInput.value = cleanedPrice;
+        }
+        if (itemImageInput) {
+            itemImageInput.value = "";
+            itemImageInput.required = false;
+        }
+        if (menuModalLabel) menuModalLabel.textContent = "Edit Menu Item";
+        menuModal.show();
     }
 
 
 })
+}
 
 //
-
 
