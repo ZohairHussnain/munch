@@ -6,17 +6,17 @@ const desserts = document.getElementById("desserts");
 
 if (starters) {
     starters.addEventListener("click", () => {
-        window.location.href = "./starters/starters.html";
+        window.location.href = "./starters.html";
     })
 }
 
 if (mains) {
     mains.addEventListener("click", () => {
-        window.location.href = "./mains/mains.html";
+        window.location.href = "./mains.html";
     })
 
     desserts.addEventListener("click", () => {
-        window.location.href = "./desserts/desserts.html";
+        window.location.href = "./desserts.html";
     })
 }
 //
@@ -45,23 +45,23 @@ let editingCard = null;
 
 if(gotoStarters){
     gotoStarters.addEventListener("click",()=>{
-        window.location.href = "../starters/starters.html"
+        window.location.href = "./starters.html"
     })
 }
 if(gotoMains){
     gotoMains.addEventListener("click",()=>{
-        window.location.href = "../mains/mains.html"
+        window.location.href = "./mains.html"
     })
 }
 if(gotoDesserts){
     gotoDesserts.addEventListener("click",()=>{
-        window.location.href = "../desserts/desserts.html"
+        window.location.href = "./desserts.html"
     })
 }
 
 if (backBtn) {
     backBtn.addEventListener("click", () => {
-        window.location.href = "../index.html";
+        window.location.href = "./managermenu.html";
     })
 }
 

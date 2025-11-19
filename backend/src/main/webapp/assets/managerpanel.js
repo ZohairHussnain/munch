@@ -157,7 +157,7 @@ function addTable() {
       
       
       <div class="card-footer">
-      <a href="qrCode.html" class="stretched-link"></a>
+      <a href="../front_end/managerPanel/qrCode.html" class="stretched-link"></a>
         <small class="text-muted">Last updated 1 mins ago</small>
       </div>
   </div>
@@ -236,6 +236,6 @@ function showMonth(){
 const menuBtn = document.getElementById("managermenu");
 if(menuBtn){
   menuBtn.addEventListener("click", ()=>{
-    window.location.href = "../menu_managerview/index.html"
+    window.location.href = "../managerMenu/managermenu.html"
   })
 }
