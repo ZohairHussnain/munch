@@ -174,3 +174,59 @@ if (menuContainer) {
 
 //
 
+document.addEventListener("DOMContentLoaded", () => {
+
+    const path = window.location.pathname;
+
+    if (path.includes("starters.html")) {
+        loadMenuItems("starters");
+    }
+    else if (path.includes("mains.html")) {
+        loadMenuItems("mains");
+    }
+    else if (path.includes("desserts.html")) {
+        loadMenuItems("desserts");
+    }
+
+});
+
+function loadMenuItems(category) {
+    console.log("loadmenuitems()");
+    fetch("/backend_war_exploded/manager/menu?category=" + category)
+        .then(res => res.json())
+        .then(items => {
+            renderMenuCards(items);
+        })
+        .catch(err => console.error("Error loading items:", err));
+}
+
+function renderMenuCards(items) {
+    console.log("renderMenuCards()");
+    menuContainer.innerHTML = ""; // clear previous
+
+    items.forEach(item => {
+        const cardHTML = `
+        <div class="col-lg-3 col-md-4 col-sm-12 theCard">
+          <div class="card mb-3" style="width: 18rem;">
+            <img src="${item.image}" class="card-img-top" alt="${item.name}">
+            <div class="card-body">
+              <h5 class="card-title">${item.name}</h5>
+              <p class="card-text">${item.price} AED</p>
+
+              <div class="rating text-center">
+                ⭐ ⭐ ⭐ ⭐ ☆ <span class="rating-value">(4.2 / 5)</span>
+              </div>
+              <div class="wait-time text-center mb-1">
+                ⏱ Avg Wait: 12 min
+              </div>
+
+              <a href="#" class="btn btn-primary d-block mx-auto mb-1 edit-btn" data-id="${item.id}">Edit</a>
+              <a href="#" class="btn btn-danger d-block mx-auto delete-btn" data-id="${item.id}">Delete</a>
+            </div>
+          </div>
+        </div>
+        `;
+
+        menuContainer.insertAdjacentHTML("beforeend", cardHTML);
+    });
+}

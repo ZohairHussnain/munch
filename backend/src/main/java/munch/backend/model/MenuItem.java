@@ -4,10 +4,10 @@ public class MenuItem {
     private int id;
     private String name;
     private double price;
-    private String category;
+    private int category;
     private String image;//file name
 
-    public MenuItem(int id, String name, double price, String category, String image) {
+    public MenuItem(int id, String name, double price, int category, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -15,7 +15,7 @@ public class MenuItem {
         this.image = image;
     }
 
-    public MenuItem(String name, double price, String category, String image) {
+    public MenuItem(String name, double price, int category, String image) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -46,11 +46,11 @@ public class MenuItem {
         this.price = price;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
