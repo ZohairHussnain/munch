@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadMenuItems(category) {
     console.log("loadmenuitems()");
-    fetch("/backend_war_exploded/manager/menu?category=" + category)
+    fetch("/backend_war_exploded/manager/loadmenu?category=" + category)
         .then(res => res.json())
         .then(items => {
             renderMenuCards(items);

@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Objects;
 
-@WebServlet("/manager/menu")
+@WebServlet("/manager/loadmenu")
 public class LoadManagerMenu extends HttpServlet {
 
     @Override

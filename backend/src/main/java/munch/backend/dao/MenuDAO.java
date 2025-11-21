@@ -76,7 +76,7 @@ public class MenuDAO {
     public static void main(String[] args){
         MenuDAO dao = new MenuDAO();
         //1 starters 2 mains 3 desserts
-        MenuItem item = new MenuItem("hummus", 12.3, 1, "...");
+        MenuItem item = new MenuItem("icecream", 104, 3, "...");
         try {
             dao.addItem(item);
         } catch (Exception e){e.printStackTrace();}
