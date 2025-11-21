@@ -76,61 +76,58 @@ if (addBtn && menuForm && menuModal) {
     menuModal.show();
   });
 }
-
-if (menuForm && menuModal) {
-  menuForm.addEventListener("submit", (e) => {
+menuForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const name = itemNameInput ? itemNameInput.value.trim() : "";
-    const price = itemPriceInput ? itemPriceInput.value.trim() : "";
-    const file = itemImageInput ? itemImageInput.files[0] : null;
+    const name = itemNameInput.value.trim();
+    const price = itemPriceInput.value.trim();
+    const file = itemImageInput.files[0];
 
-    if (!name || !price) return alert("Please fill all fields.");
-    if (!editingCard && !file) return alert("Please upload an image for new items.");
-
-    if (editingCard) {
-      const titleEl = editingCard.querySelector(".card-title");
-      const priceEl = editingCard.querySelector(".card-text");
-      const imageEl = editingCard.querySelector("img");
-      if (titleEl) titleEl.textContent = name;
-      if (priceEl) priceEl.textContent = `${price} AED`;
-      if (imageEl) {
-        if (file) {
-          imageEl.src = URL.createObjectURL(file);
-        }
-        imageEl.alt = name;
-      }
-    } else {
-      const imageURL = URL.createObjectURL(file);
-      const cardHTML = `
-    <div class="col-lg-3 col-md-4 col-sm-12 theCard">
-      <div class="card mb-3" style="width: 18rem;">
-        <img src="${imageURL}" class="card-img-top" alt="${name}">
-        <div class="card-body">
-          <h5 class="card-title">${name}</h5>
-          <p class="card-text">${price} AED</p>
-          <div class="rating text-center">
-          ⭐ ⭐ ⭐ ⭐ ☆ <span class="rating-value">(4.2 / 5)</span>
-          </div>
-          <div class="wait-time text-center mb-1">
-           ⏱ Avg Wait: 12 min
-          </div>
-          <a href="#" class="btn btn-primary d-block mx-auto mb-1 edit-btn">Edit</a>
-          <a href="#" class="btn btn-danger d-block mx-auto delete-btn">Delete</a>
-        </div>
-      </div>
-    </div>
-  `;
-      if (menuContainer) {
-        menuContainer.insertAdjacentHTML("beforeend", cardHTML);
-      }
+    if (!name || !price || !file) {
+        alert("All fields required");
+        return;
     }
-    menuModal.hide();
-    menuForm.reset();
-    editingCard = null;
-    if (itemImageInput) itemImageInput.required = true;
-  });
-}
+
+    let category = 0;
+    if (window.location.pathname.includes("starters")) category = 1;
+    if (window.location.pathname.includes("mains")) category = 2;
+    if (window.location.pathname.includes("desserts")) category = 3;
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("category", category);
+    formData.append("image", file);
+
+    let stringcat =
+        category === 1 ? "starters" :
+            category === 2 ? "mains" :
+                category === 3 ? "desserts" :
+                    "";
+
+    fetch("/backend_war_exploded/manager/addmenu", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log("Server result:", result);
+
+            if (result.status === "success") {
+                menuModal.hide();
+                menuForm.reset();
+
+
+                loadMenuItems(stringcat);
+            } else {
+                alert("Failed to add item");
+            }
+        })
+        .catch(err => {
+            console.error("Add item failed:", err);
+            alert("Server error");
+        });
+});
 
 
 if (menuContainer) {
@@ -206,9 +203,9 @@ function renderMenuCards(items) {
 
     items.forEach(item => {
         const cardHTML = `
-        <div class="col-lg-3 col-md-4 col-sm-12 theCard">
+        <div class="col-lg-3 col-md-4 col-sm-12 mr-3 theCard">
           <div class="card mb-3" style="width: 18rem;">
-            <img src="${item.image}" class="card-img-top" alt="${item.name}">
+            <img src="/backend_war_exploded/uploads/${item.image}" class="card-img-top" alt="${item.name}">
             <div class="card-body">
               <h5 class="card-title">${item.name}</h5>
               <p class="card-text">${item.price} AED</p>

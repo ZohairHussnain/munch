@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/manager/editmenu")
-public class EditManagerMenu extends HttpServlet {
+@WebServlet("/manager/deletemenu")
+public class DeleteManagerMenu extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
