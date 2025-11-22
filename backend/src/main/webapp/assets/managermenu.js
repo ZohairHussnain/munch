@@ -1,4 +1,4 @@
-
+//final
 //manage menu/index page
 const starters = document.getElementById("starters");
 const mains = document.getElementById("mains");
@@ -76,6 +76,9 @@ if (addBtn && menuForm && menuModal) {
     menuModal.show();
   });
 }
+
+
+//add/edit
 menuForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -140,17 +143,35 @@ if (menuContainer) {
   menuContainer.addEventListener("click", (e) => {
     //for deleting menu item
     //we check for any clicks in the container then check if the click came from a delete
-    if (e.target.classList.contains("delete-btn")) {
-        //ask user to confirm
-        if (confirm("Delete this menu item?")) {
-            //here we use the bubbling up property, so it looks for the closest card to the delete btn to be deleted
-            e.target.closest(".theCard").remove();
-        }
-    }
+      if (e.target.classList.contains("delete-btn")) {
+
+          const id = e.target.dataset.id;
+          if (!confirm("Delete this menu item?")) return;
+
+          let category = "";
+          if (window.location.pathname.includes("starters")) category = "starters";
+          if (window.location.pathname.includes("mains")) category = "mains";
+          if (window.location.pathname.includes("desserts")) category = "desserts";
+
+          fetch("/backend_war_exploded/manager/deletemenu", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: "id=" + encodeURIComponent(id)
+          })
+              .then(response => response.json())
+              .then(result => {
+                  if (result.status === "success") {
+                      loadMenuItems(category);
+                  } else {
+                      alert("Delete failed");
+                  }
+              })
+              .catch(err => console.error("Delete error:", err));
+      }
 
 
 
-
+    //edit form
     if(e.target.classList.contains("edit-btn")){
         const card = e.target.closest(".theCard");
         if (!card || !menuModal || !menuForm || !itemNameInput || !itemPriceInput) return;
@@ -164,7 +185,7 @@ if (menuContainer) {
         }
         if (itemImageInput) {
             itemImageInput.value = "";
-            itemImageInput.required = false;
+            itemImageInput.required = true;
         }
         if (menuModalLabel) menuModalLabel.textContent = "Edit Menu Item";
         menuModal.show();
@@ -174,8 +195,7 @@ if (menuContainer) {
 })
 }
 
-//
-
+//helper
 document.addEventListener("DOMContentLoaded", () => {
 
     const path = window.location.pathname;
