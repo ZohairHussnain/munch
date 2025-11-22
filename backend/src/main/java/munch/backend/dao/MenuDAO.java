@@ -48,6 +48,47 @@ public class MenuDAO {
         conn.close();
         return list;
     }
+    //for recipt
+    public List<MenuItem> getItemsByIds(List<Integer> ids) throws Exception {
+
+        if (ids == null || ids.isEmpty()) return new ArrayList<>();
+
+        //cuause strings are not mutable
+        StringBuilder sql = new StringBuilder("SELECT * FROM menu_items WHERE id IN (");
+
+        //generate ?,?,?
+        for (int i = 0; i < ids.size(); i++) {
+            sql.append("?");
+            if (i < ids.size() - 1) sql.append(",");
+        }
+        sql.append(")");
+
+        List<MenuItem> list = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            //for the ?
+            for (int i = 0; i < ids.size(); i++) {
+                stmt.setInt(i + 1, ids.get(i));
+            }
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(new MenuItem(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("cat_id"),
+                        rs.getString("image_url")
+                ));
+            }
+        }
+
+        return list;
+    }
+
     public void editItem (MenuItem item) throws Exception{
         String query = "UPDATE menu_items SET cat_id = ?, name = ?, price = ?, image_url = ? WHERE id = ?";
         Connection conn = DBConnection.getConnection();
