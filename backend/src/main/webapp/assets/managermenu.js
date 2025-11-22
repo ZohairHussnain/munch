@@ -105,7 +105,13 @@ menuForm.addEventListener("submit", (e) => {
                 category === 3 ? "desserts" :
                     "";
 
-    fetch("/backend_war_exploded/manager/addmenu", {
+    let url = "/backend_war_exploded/manager/addmenu";//default
+    if (editingCard) {
+        const itemId = editingCard.querySelector(".edit-btn").dataset.id;
+        formData.append("id", itemId);
+        url = "/backend_war_exploded/manager/editmenu";
+    }
+    fetch(url, {
         method: "POST",
         body: formData
     })
@@ -129,7 +135,7 @@ menuForm.addEventListener("submit", (e) => {
         });
 });
 
-
+//delete
 if (menuContainer) {
   menuContainer.addEventListener("click", (e) => {
     //for deleting menu item
@@ -144,10 +150,9 @@ if (menuContainer) {
 
 
 
-    //for editing item
 
     if(e.target.classList.contains("edit-btn")){
-        const card = e.target.closest(".card");
+        const card = e.target.closest(".theCard");
         if (!card || !menuModal || !menuForm || !itemNameInput || !itemPriceInput) return;
         editingCard = card;
         const oldName = card.querySelector(".card-title");
